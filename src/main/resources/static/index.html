@@ -157,29 +157,28 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <!-- panel lateral, demostrando acordeones (secciones expansibles) -->
-            <div class="col-md-6 align-self-center">
-                <div class="row text-center">
-                    <h2>Graphical Movie Database</h2>
+            <div class="col-md-5 col-12 align-self-center">
+                <div class="row text-center m-2">
+                    <h1 class="display-3">Graphical Movie Database</h1>
                 </div>
-                <div class="row mb-3">
-                    <div class="col">
-                        <button type="button" class="btn btn-light border border-secondary">➕</button>
+                <div class="row md-5 gx-1">
+                    <div class="col-1">
+                        <input type="button" class="btn btn-light border-secondary" value="➕">
                     </div>
-                    <div class="col">
+                    <div class="col-9">
                         <input type="search" class="form-control" id="movieSearch" placeholder="Search movie"
                             aria-describedby="searchMovieLabel">
                     </div>
-                    <!--<span class="input-group-text" id="searchMovieLabel">🔍</span>-->
-                    <div class="col">
-                        <button type="button" class="btn btn-light border border-secondary">🕵️‍♂️</button>
+                    <div class="col-1">
+                        <input type="button" class="btn btn-light border-secondary" value="🕵️‍♂️">
                     </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-light border border-secondary">🔍</button>
+                    <div class="col-1">
+                        <input type="button" class="btn btn-light border-secondary" value="🔍">
                     </div>
                 </div>
             </div>
         </div>
-        <div class="accordion" id="movies">
+        <div class="row row-cols-2 row-cols-lg-5 g-1" id="movies">
         </div>
         <div id="addMovie" class="formularioValidado">
             <h3>Añadir película</h3>
