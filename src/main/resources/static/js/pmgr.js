@@ -96,11 +96,14 @@ function createMovieItem(movie) {
     ).join("");
 
     return `
-    <div class="card" data-id="${movie.id}">
-    <div class="card-header"">
+    <div class="<!--card--> col" data-id="${movie.id}">
+        <div class="card">
+        <img class="card-img-top rounded" alt="${movie.id}" src="${serverUrl}poster/${movie.imdb}">
+    <!--<div class="card-header"">
         <h4 class="mb-0" title="${movie.id}">
             ${movie.name} <small><i>(${movie.year})</i></small>
         </h4>
+        </div>
     </div>
 
     <div>
@@ -124,7 +127,7 @@ function createMovieItem(movie) {
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     </div>
  `;
 }
@@ -440,7 +443,7 @@ Pmgr.connect(serverUrl + "api/");
 // guarda el ID que usaste para hacer login en userId
 let userId = -1;
 const login = (username, password) => {
-    Pmgr.login(username, password) // <-- tu nombre de usuario y password aquí
+    Pmgr.login("g4", "aGPrD") // <-- tu nombre de usuario y password aquí
         .then(d => {
             console.log("login ok!", d);
             update(d);
