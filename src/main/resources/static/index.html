@@ -117,44 +117,29 @@
     </div>
 
     <!-- barra de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
-            <a class="navbar-brand" href="#">IU 2021-22</a>
-            <!-- menu hamburguesa si no cabe todo -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar sticky-top">
+        <div class="container-fluid justify-content-end">
+            <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasGroup"
+                aria-controls="offcanvasGroup">👪</button>
+            <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser"
+                aria-controls="offcanvasUser">👷‍♂️</button>
         </div>
     </nav>
+
+    <!--Offcanvas para grupos-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasGroup" aria-labelledby="offcanvasRightGroupLabel">
+        <div class="offcanvas-header">
+            <h2 id="offcanvasRightGroupLabel">Grupos</h2>
+        </div>
+        <div class="offcanvas-body">
+            <div id="groups">
+
+            </div>
+            <div id="addGroup">
+
+            </div>
+        </div>
+    </div>
 
     <!-- container-fluid expande el contenedor para que ocupe todo el espacio disponible -->
     <div class="container-fluid">
@@ -219,15 +204,6 @@
                     <button class="btn btn-secondary generar" type="button">Generar</button>
                 </div>
             </form>
-        </div>
-
-
-        <h2>Grupos</h2>
-        <div id="groups">
-
-        </div>
-        <div id="addGroup">
-
         </div>
 
         <h2>Usuarios</h2>
