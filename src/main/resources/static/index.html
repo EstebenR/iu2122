@@ -140,8 +140,8 @@
                                 <input type="text" class="form-control" name="actors" placeholder="Actors" required>
                                 <input type="number" class="form-control" name="year" placeholder="Year" min="1800"
                                     max="2022" required>
-                                <input type="number" class="form-control" name="minutes"
-                                    placeholder="Length in minutes" min="0" max="600" required>
+                                <input type="number" class="form-control" name="minutes" placeholder="Length in minutes"
+                                    min="0" max="600" required>
                                 <input type="text" class="form-control" name="synopsis" placeholder="Synopsis">
                             </div>
                             <div class="col-md-4">
@@ -155,6 +155,41 @@
                             </div>
                         </form>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal info de pelicula-->
+    <div class="modal fade" id="movieInfo" tabindex="-1" aria-labelledby="movieInfoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="movieInfoLabel">Movie - Year</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-2 col-12">
+                                <!--TODO Meter imagen de pelicula-->
+                                <img class="rounded" alt="Movie poster" src="" id="movieInfoImage">
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <p>
+                                    <em>Directed by</em> <span id="movieInfoDirector"></span><br>
+                                    <em>Year</em> <span id="movieInfoYear"></span><br>
+                                    <em>Length</em> <span id="movieInfoLength"></span><br>
+                                    <em>Synopsis</em><br><span id="movieInfoYear"></span>
+                                </p>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <!--TODO ratings-->
+                                <p>⭐⭐⭐⭐⭐</p>
+                                <p>Tags</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -98,8 +98,8 @@ function createMovieItem(movie) {
     return `
     <div class="<!--card--> col" data-id="${movie.id}">
         <div class="card">
-        <button class="btn btn-default">
-        <img class="card-img-top rounded" alt="${movie.id}" src="${serverUrl}poster/${movie.imdb}">
+        <button type="button" class="btn btn-default data-bs-toggle="modal" data-bs-target="#movieInfo" data-bs-whatever="${movie.id}">
+            <img class="card-img-top rounded" alt="${movie.id}" src="${serverUrl}poster/${movie.imdb}">
         </button>
     <!--<div class="card-header"">
         <h4 class="mb-0" title="${movie.id}">
@@ -412,7 +412,36 @@ function update() {
         // botones de borrar usuarios
         document.querySelectorAll(".iucontrol.user button.rm").forEach(b =>
             b.addEventListener('click', e => Pmgr.rmUser(e.target.dataset.id).then(update)));
+        // botones de informacion de cada pelicula
+        //TODO esto no me va
+        var movieInfoModal = document.getElementById('movieInfo')
+        movieInfoModal.addEventListener('show.bs.modal',function(event){
+            alert('aaa')
+            //button that triggered the modal
+            var button = event.relatedTarget
+            //extract info from data-bs-* attributes
+            var movieId = button.getAttribute('data-bs-whatever')
+            //query movie info
 
+            //Update modal's content
+            var movie = Pmgr.resolve(movieId)
+            var modalTitle = exampleModal.querySelector('.modal-title')
+            var modalImage = document.getElementById('movieInfoImage')
+            var modalDirector = document.getElementById('movieInfoDirector')
+            var modalYear = document.getElementById('movieInfoYear')
+            var modalLength = document.getElementById('movieInfoYear')
+
+            //TODO ratings
+
+            modalTitle.textContent = movie.name + " - " + movie.year
+            modalDirector.textContent = movie.director
+            modalLength.textContent = movie.minutes
+            modalYear.textContent = movie.year
+            modalImage.src = serverUrl+"poster/"+movie.imdb
+
+            movieInfoModal.show()
+            update()
+        })
 
     } catch (e) {
         console.log('Error actualizando', e);
@@ -437,6 +466,7 @@ function update() {
 const modalEditMovie = new bootstrap.Modal(document.querySelector('#movieEdit'));
 const modalRateMovie = new bootstrap.Modal(document.querySelector('#movieRate'));
 const modalAddMovie = new bootstrap.Modal(document.querySelector('#movieAdd'));
+const modalMovieInfo = new bootstrap.Modal(document.querySelector('#movieInfo'));
 
 // si lanzas un servidor en local, usa http://localhost:8080/
 const serverUrl = "http://gin.fdi.ucm.es/iu/";
@@ -533,6 +563,7 @@ document.querySelector("#movieSearch").addEventListener("input", e => {
 window.modalEditMovie = modalEditMovie;
 window.modalRateMovie = modalRateMovie;
 window.modalAddMovie = modalAddMovie; //TODO modalRateMovie uses js to share modal with Add
+window.modalMovieInfo = modalMovieInfo;
 window.update = update;
 window.login = login;
 window.userId = userId;
