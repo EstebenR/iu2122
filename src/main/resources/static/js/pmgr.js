@@ -98,7 +98,9 @@ function createMovieItem(movie) {
     return `
     <div class="<!--card--> col" data-id="${movie.id}">
         <div class="card">
+        <button class="btn btn-default">
         <img class="card-img-top rounded" alt="${movie.id}" src="${serverUrl}poster/${movie.imdb}">
+        </button>
     <!--<div class="card-header"">
         <h4 class="mb-0" title="${movie.id}">
             ${movie.name} <small><i>(${movie.year})</i></small>
@@ -434,6 +436,7 @@ function update() {
 // modales, para poder abrirlos y cerrarlos desde código JS
 const modalEditMovie = new bootstrap.Modal(document.querySelector('#movieEdit'));
 const modalRateMovie = new bootstrap.Modal(document.querySelector('#movieRate'));
+const modalAddMovie = new bootstrap.Modal(document.querySelector('#movieAdd'));
 
 // si lanzas un servidor en local, usa http://localhost:8080/
 const serverUrl = "http://gin.fdi.ucm.es/iu/";
@@ -529,6 +532,7 @@ document.querySelector("#movieSearch").addEventListener("input", e => {
 // cosas que exponemos para poder usarlas desde la consola
 window.modalEditMovie = modalEditMovie;
 window.modalRateMovie = modalRateMovie;
+window.modalAddMovie = modalAddMovie; //TODO modalRateMovie uses js to share modal with Add
 window.update = update;
 window.login = login;
 window.userId = userId;
