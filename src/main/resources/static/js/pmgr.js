@@ -89,19 +89,20 @@ function stars(sel) {
 function createMovieItem(movie) {
     const r2s = r => r > 0 ? Pmgr.Util.fill(r, () => "⭐").join("") : "";
     const ratings = movie.ratings.map(id => Pmgr.resolve(id)).map(r =>
-        `<span class="badge bg-${r.user==userId?"primary":"secondary"}">
+        `<span class="badge bg-${r.user == userId ? "primary" : "secondary"}">
         ${Pmgr.resolve(r.user).username}: ${r.labels} ${r2s(r.rating)}
         </span>
         `
     ).join("");
 
     return `
-    <div class="<!--card--> col" data-id="${movie.id}">
+    <div class="col" data-id="${movie.id}">
         <div class="card">
-        <button type="button" class="btn btn-default data-bs-toggle="modal" data-bs-target="#movieInfo" data-bs-whatever="${movie.id}">
             <img class="card-img-top rounded" alt="${movie.id}" src="${serverUrl}poster/${movie.imdb}">
-        </button>
-    <!--<div class="card-header"">
+
+    <!-- Codigo de ejemplo
+    
+    <div class="card-header"">
         <h4 class="mb-0" title="${movie.id}">
             ${movie.name} <small><i>(${movie.year})</i></small>
         </h4>
@@ -129,7 +130,9 @@ function createMovieItem(movie) {
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
+    
+    -->
     </div>
  `;
 }
@@ -413,34 +416,31 @@ function update() {
         document.querySelectorAll(".iucontrol.user button.rm").forEach(b =>
             b.addEventListener('click', e => Pmgr.rmUser(e.target.dataset.id).then(update)));
         // botones de informacion de cada pelicula
-        //TODO esto no me va
-        var movieInfoModal = document.getElementById('movieInfo')
-        movieInfoModal.addEventListener('show.bs.modal',function(event){
-            alert('aaa')
-            //button that triggered the modal
-            var button = event.relatedTarget
-            //extract info from data-bs-* attributes
-            var movieId = button.getAttribute('data-bs-whatever')
-            //query movie info
+        //TODO solo funciona para la primera pelicula
+        document.querySelectorAll("#movies .card").forEach(m => {
+            m.addEventListener('click', e => {
+                const movieId = e.target.getAttribute("alt")
+                // console.log(id);
+                // console.log(e.target)
+                console.log(`Seleccionada película ${movieId}`);
 
-            //Update modal's content
-            var movie = Pmgr.resolve(movieId)
-            var modalTitle = exampleModal.querySelector('.modal-title')
-            var modalImage = document.getElementById('movieInfoImage')
-            var modalDirector = document.getElementById('movieInfoDirector')
-            var modalYear = document.getElementById('movieInfoYear')
-            var modalLength = document.getElementById('movieInfoYear')
+                var movie = Pmgr.resolve(movieId)
+                var modalTitle = document.getElementById('movieInfoLabel')
+                var modalImage = document.getElementById('movieInfoImage')
+                var modalDirector = document.getElementById('movieInfoDirector')
+                var modalYear = document.getElementById('movieInfoYear')
+                var modalLength = document.getElementById('movieInfoYear')
 
-            //TODO ratings
+                //TODO ratings
 
-            modalTitle.textContent = movie.name + " - " + movie.year
-            modalDirector.textContent = movie.director
-            modalLength.textContent = movie.minutes
-            modalYear.textContent = movie.year
-            modalImage.src = serverUrl+"poster/"+movie.imdb
+                modalTitle.textContent = movie.name + " - " + movie.year
+                modalDirector.textContent = movie.director
+                modalLength.textContent = movie.minutes
+                modalYear.textContent = movie.year
+                modalImage.src = serverUrl + "poster/" + movie.imdb
 
-            movieInfoModal.show()
-            update()
+                modalMovieInfo.show()
+            }).then(update);
         })
 
     } catch (e) {
