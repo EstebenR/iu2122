@@ -489,7 +489,7 @@ const login = (username, password) => {
 }
 
                  // -- IMPORTANTE --
-login("p", "p"); // <-- tu nombre de usuario y password aquí
+login("g4", "aGPrD"); // <-- tu nombre de usuario y password aquí
                  //   y puedes re-logearte como alguien distinto desde  la consola
                  //   llamando a login() con otro usuario y contraseña
 {
