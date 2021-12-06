@@ -416,7 +416,6 @@ function update() {
         document.querySelectorAll(".iucontrol.user button.rm").forEach(b =>
             b.addEventListener('click', e => Pmgr.rmUser(e.target.dataset.id).then(update)));
         // botones de informacion de cada pelicula
-        //TODO solo funciona para la primera pelicula
         document.querySelectorAll("#movies .card").forEach(m => {
             m.addEventListener('click', e => {
                 const movieId = e.target.getAttribute("alt")
@@ -440,7 +439,7 @@ function update() {
                 modalImage.src = serverUrl + "poster/" + movie.imdb
 
                 modalMovieInfo.show()
-            }).then(update);
+            })
         })
 
     } catch (e) {
