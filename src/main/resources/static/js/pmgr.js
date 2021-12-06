@@ -475,7 +475,7 @@ Pmgr.connect(serverUrl + "api/");
 // guarda el ID que usaste para hacer login en userId
 let userId = -1;
 const login = (username, password) => {
-    Pmgr.login("g4", "aGPrD") // <-- tu nombre de usuario y password aquí
+    Pmgr.login(username, password)
         .then(d => {
             console.log("login ok!", d);
             update(d);
@@ -488,8 +488,10 @@ const login = (username, password) => {
         });
 }
 
-login("p", "p");
-
+                 // -- IMPORTANTE --
+login("p", "p"); // <-- tu nombre de usuario y password aquí
+                 //   y puedes re-logearte como alguien distinto desde  la consola
+                 //   llamando a login() con otro usuario y contraseña
 {
     /** 
      * Asocia comportamientos al formulario de añadir películas 
