@@ -456,10 +456,12 @@ function update() {
 
 
 					if (mov.labels.length > 0)
-						modelTags.textContent = (modelTags.textContent + mov.labels);
+						modelTags.textContent = (modelTags.textContent + mov.labels + ",");
 				}
 				if (modelTags.textContent == "")
 					modelTags.textContent = ("No tags");
+				else
+					modelTags.textContent = modelTags.textContent.substring(0,modelTags.textContent.length - 1);
 
 
 				var fullstars = Math.round(ratingFinal / elementsCounted)
@@ -623,20 +625,13 @@ document.querySelector("#buttonSearch").addEventListener('click', e => {
 				}
 			});
 			if (searchTags[0] != "") {
-				console.log(searchTags)
-				console.log("vs")
-				console.log(movieTags)
 				let i = 0;
-				while (i < searchTags.length && (movieTags.indexOf(searchTags[i])>=0)) {
+				while (i < searchTags.length && (movieTags.indexOf(searchTags[i].trim()) >= 0)) {
 					i++;
 				}
-				let fitsTags = (i>=searchTags.length);
-				if (fitsTags)
-					console.log("fits");
+				let fitsTags = (i >= searchTags.length);
 				ok = ok && fitsTags;
 			}
-			else
-				console.log("no tags");
 		}
 		// aquí podrías aplicar muchos más criterios
 		c.style.display = ok ? '' : 'none';
