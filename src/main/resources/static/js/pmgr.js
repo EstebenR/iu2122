@@ -611,14 +611,26 @@ document.querySelector("#buttonSearch").addEventListener('click', e => {
 			ok = ok && (m.minutes <= maxLength && m.minutes >= minLength)
 			//TODO ratings
 
-			//TODO tags (no hay al parecer)
 			let searchTags = criteria.querySelector("#tagList").value.split(',');
+			let groupTagCtx = criteria.querySelector("#groupTagCtx").value.split(',');
+			groupTagCtx.forEach(element => {
+				element = element.trim();
+			});
 			let movieTags = [];
+			
 			m.ratings.forEach(ratingID => {
 				//Comprobar que el rating pertenece a un miembro del uno de los grupos indicados
 				let rating = Pmgr.state.ratings.find(element => element.id == ratingID)
 				//TODO filtro de contexto para busquedas por grupo
-				if (rating.labels) {
+				let validCtx = true;
+				if(groupTagCtx[0]!=""){
+					
+					let groups = Pmgr.state.groups.filter(element => groupTagCtx.indexOf(element.name) >= 0)
+					let raterGroups = Pmgr.state.users.find(usr => usr.id == rating.user).groups;
+					validCtx = raterGroups.some(grp => groups.indexOf(grp)>=0)
+				}
+
+				if (validCtx && rating.labels) {
 					rating.labels.split(',').forEach(label => {
 						movieTags.push(label)
 					});
