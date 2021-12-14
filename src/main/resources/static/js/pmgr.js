@@ -512,6 +512,7 @@ const login = (username, password) => {
 	Pmgr.login(username, password)
 		.then(d => {
 			console.log("login ok!", d);
+			afterLoginCleanup.forEach(lb => lb());
 			update(d);
 			userId = Pmgr.state.users.find(u =>
 				u.username == username).id;
@@ -520,6 +521,7 @@ const login = (username, password) => {
 			console.log(e, `error ${e.status} en login (revisa la URL: ${e.url}, y verifica que está vivo)`);
 			console.log(`el servidor dice: "${e.text}"`);
 		});
+	
 }
 
 // -- IMPORTANTE --
@@ -623,7 +625,9 @@ document.querySelector("#buttonSearch").addEventListener('click', e => {
 				let rating = Pmgr.state.ratings.find(element => element.id == ratingID)
 				//TODO filtro de contexto para busquedas por grupo
 				let validCtx = true;
-				if(groupTagCtx[0]!=""){
+				if(
+					criteria.querySelector("#tagGroupSwitch").getAttribute("aria-expanded") && 
+					groupTagCtx[0]!=""){
 					
 					let groups = Pmgr.state.groups.filter(element => groupTagCtx.indexOf(element.name) >= 0)
 					let raterGroups = Pmgr.state.users.find(usr => usr.id == rating.user).groups;
@@ -659,6 +663,13 @@ window.update = update;
 window.login = login;
 window.userId = userId;
 window.Pmgr = Pmgr;
+
+const afterLoginCleanup = [
+	()=>{
+		console.log("Limpito")
+		document.querySelector("#tagGroupSwitch").checked = false;
+	},
+]
 
 // ejecuta Pmgr.populate() en una consola para generar datos de prueba en servidor
 // ojo - hace *muchas* llamadas a la API (mira su cabecera para más detalles)
