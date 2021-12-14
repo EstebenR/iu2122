@@ -424,7 +424,7 @@ function update() {
 				console.log(`Seleccionada película ${movieId}`);
 
 				var movie = Pmgr.resolve(movieId)
-				
+
 				var modalTitle = document.getElementById('movieInfoTitle')
 				var modalImage = document.getElementById('movieInfoImage')
 				var modalDirector = document.getElementById('movieInfoDirector')
@@ -440,36 +440,37 @@ function update() {
 				modalLength.textContent = movie.minutes + " minutes"
 				modalYear.textContent = movie.year
 				modalImage.src = serverUrl + "poster/" + movie.imdb
+				modelTags.textContent = ""
 
 				let ratingFinal = 0;
 				let elementsCounted = 0;
-				
-				for(let i = 0 ; i < movie.ratings.length; i++)
-				{
+
+				for (let i = 0; i < movie.ratings.length; i++) {
 					var rat = movie.ratings[i];
 					let mov = Pmgr.state.ratings.find(element => element.id == rat)
-				  
-					if(mov.rating != -1) 
-					{
+
+					if (mov.rating != -1) {
 						ratingFinal += mov.rating
 						elementsCounted++
 					}
-					
-					if(mov.labels == "")
-						modelTags.textContent = ("No tags")
-					else
-						modelTags.textContent = (" " + mov.labels)
-				}
 
-				var fullstars = Math.round(ratingFinal / elementsCounted)				
+
+					if (mov.labels.length > 0)
+						modelTags.textContent = (modelTags.textContent + mov.labels);
+				}
+				if (modelTags.textContent == "")
+					modelTags.textContent = ("No tags");
+
+
+				var fullstars = Math.round(ratingFinal / elementsCounted)
 				var emptyStars = 5 - fullstars
 
-				
-				if(!fullstars)
-				modalRating.textContent = "No rating"
+
+				if (!fullstars)
+					modalRating.textContent = "No rating"
 				else
-					modalRating.textContent =  '⭐' .repeat(fullstars) + ' - '.repeat(emptyStars)
-				
+					modalRating.textContent = '⭐'.repeat(fullstars) + ' - '.repeat(emptyStars)
+
 				modalMovieInfo.show()
 			})
 		})
@@ -519,10 +520,10 @@ const login = (username, password) => {
 		});
 }
 
-				 // -- IMPORTANTE --
+// -- IMPORTANTE --
 login("g4", "aGPrD"); // <-- tu nombre de usuario y password aquí
-				 //   y puedes re-logearte como alguien distinto desde  la consola
-				 //   llamando a login() con otro usuario y contraseña
+//   y puedes re-logearte como alguien distinto desde  la consola
+//   llamando a login() con otro usuario y contraseña
 {
 	/** 
 	 * Asocia comportamientos al formulario de añadir películas 
@@ -584,18 +585,18 @@ login("g4", "aGPrD"); // <-- tu nombre de usuario y password aquí
 document.querySelector("#buttonSearch").addEventListener('click', e => {
 	const v = document.querySelector("#movieSearch").value.toLowerCase();
 	let criteria = null;
-		//Los criterios solo se aplican si el Collapsable esta activo
-	if(document.querySelector("#buttonAdvSearch[aria-expanded=true]") != null){
+	//Los criterios solo se aplican si el Collapsable esta activo
+	if (document.querySelector("#buttonAdvSearch[aria-expanded=true]") != null) {
 		criteria = document.querySelector("#form-advSearch");
 	}
 	document.querySelectorAll("#movies div.col").forEach(c => {
 		const m = Pmgr.resolve(c.dataset.id);
 		let ok = m.name.toLowerCase().indexOf(v) >= 0;
 		//Los criterios solo se aplican si el Collapsable esta activo
-		if(criteria != null){
+		if (criteria != null) {
 			//Director
 			const dirCrit = criteria.querySelector("#searchDirector").value
-			if(dirCrit)
+			if (dirCrit)
 				ok = ok && (m.director.indexOf(dirCrit) >= 0)
 			//Estos valores siempre serán válidos
 			//Year
@@ -609,21 +610,33 @@ document.querySelector("#buttonSearch").addEventListener('click', e => {
 			//TODO ratings
 
 			//TODO tags (no hay al parecer)
-			tagList = criteria.querySelector("#tagList").value.split(', ');
+			let searchTags = criteria.querySelector("#tagList").value.split(',');
 			let movieTags = [];
 			m.ratings.forEach(ratingID => {
 				//Comprobar que el rating pertenece a un miembro del uno de los grupos indicados
 				let rating = Pmgr.state.ratings.find(element => element.id == ratingID)
 				//TODO filtro de contexto para busquedas por grupo
-				if(rating.labels){
-				    rating.labels.split(',').forEach(label => {
-                        movieTags.push(label)
+				if (rating.labels) {
+					rating.labels.split(',').forEach(label => {
+						movieTags.push(label)
 					});
 				}
 			});
-			console.log(movieTags)
-			if(tagList.length > 0)
-				ok = ok && movieTags.every( r => {tagList.indexOf(r) >= 0})
+			if (searchTags[0] != "") {
+				console.log(searchTags)
+				console.log("vs")
+				console.log(movieTags)
+				let i = 0;
+				while (i < searchTags.length && (movieTags.indexOf(searchTags[i])>=0)) {
+					i++;
+				}
+				let fitsTags = (i>=searchTags.length);
+				if (fitsTags)
+					console.log("fits");
+				ok = ok && fitsTags;
+			}
+			else
+				console.log("no tags");
 		}
 		// aquí podrías aplicar muchos más criterios
 		c.style.display = ok ? '' : 'none';
