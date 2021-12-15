@@ -287,20 +287,28 @@
                             <div class="col-1">Rating</div>
                             <div class="col-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="button" id="rateGroupSwitch" type="checkbox" data-bs-toggle="collapse"
-                                    data-bs-target="#collapsableRateCtx" aria-expanded="false"  aria-controls="collapsableRateCtx">
+                                    <input class="form-check-input" role="button" id="rateGroupSwitch" type="checkbox"
+                                        data-bs-toggle="collapse" data-bs-target="#collapsableRateCtx"
+                                        aria-expanded="false" aria-controls="collapsableRateCtx">
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Group Filter</label>
-                                  </div>
+                                </div>
                             </div>
                             <div class="collapse col-4" id="collapsableRateCtx">
                                 <input id="groupRateCtx" type="text" class="form-control pull-right">
                             </div>
-                            <!-- TODO hacer que los valores se actualicen -->
+                            <script>
+                                function updateRateSlider(val) {
+                                    document.querySelector("#rateSliderValue").value = val
+                                    document.querySelector("#rateMin").value = val
+                                }
+                            </script>
                             <div class="col-4 center-block pull-right">
-                                <input id="rateMin" type="range" class="form-range pull-right" min="0" max="5" step="1">
+                                <input id="rateMin" type="range" class="form-range pull-right" min="0" max="5" step="1"
+                                    oninput=updateRateSlider(this.value)>
                             </div>
                             <div class="col-2">
-                                <input type="number" class="form-number" min="0" max="5" defaultValue="0">
+                                <input id="rateSliderValue" type="number" class="form-number" min="0" max="5"
+                                    defaultValue="0" oninput=updateRateSlider(this.value)>
                             </div>
                         </div>
                         <hr />
@@ -308,10 +316,11 @@
                             <div class="col-1">Tags</div>
                             <div class="col-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="button" id="tagGroupSwitch" type="checkbox" data-bs-toggle="collapse"
-                                    data-bs-target="#collapsableTagCtx" aria-expanded="false"  aria-controls="collapsableTagCtx">
+                                    <input class="form-check-input" role="button" id="tagGroupSwitch" type="checkbox"
+                                        data-bs-toggle="collapse" data-bs-target="#collapsableTagCtx"
+                                        aria-expanded="false" aria-controls="collapsableTagCtx">
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Group Filter</label>
-                                  </div>
+                                </div>
                             </div>
                             <div class="collapse col-4" id="collapsableTagCtx">
                                 <input id="groupTagCtx" type="text" class="form-control pull-right">
