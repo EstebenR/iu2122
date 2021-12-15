@@ -461,17 +461,16 @@ function update() {
 				if (modelTags.textContent == "")
 					modelTags.textContent = ("No tags");
 				else
-					modelTags.textContent = modelTags.textContent.substring(0,modelTags.textContent.length - 1);
+					modelTags.textContent = modelTags.textContent.substring(0, modelTags.textContent.length - 1);
 
 
 				var fullstars = Math.round(ratingFinal / elementsCounted)
-				var emptyStars = 5 - fullstars
 
 
 				if (!fullstars)
 					modalRating.textContent = "No rating"
 				else
-					modalRating.textContent = '⭐'.repeat(fullstars) + ' - '.repeat(emptyStars)
+					modalRating.textContent = '⭐'.repeat(fullstars)
 
 				modalMovieInfo.show()
 			})
@@ -521,7 +520,7 @@ const login = (username, password) => {
 			console.log(e, `error ${e.status} en login (revisa la URL: ${e.url}, y verifica que está vivo)`);
 			console.log(`el servidor dice: "${e.text}"`);
 		});
-	
+
 }
 
 // -- IMPORTANTE --
@@ -583,6 +582,11 @@ login("g4", "aGPrD"); // <-- tu nombre de usuario y password aquí
 	stars("#movieRateForm .estrellitas");
 }
 
+function rateBelongsAnyGroup(rating, groups){
+	let raterGroups = Pmgr.state.users.find(usr => usr.id == rating.user).groups;
+	return raterGroups.some(grp => groups.indexOf(grp) >= 0)
+}
+
 /**
  * búsqueda básica de películas, por título
  */
@@ -611,27 +615,57 @@ document.querySelector("#buttonSearch").addEventListener('click', e => {
 			const minLength = criteria.querySelector("#lengthRangeStart").value;
 			const maxLength = criteria.querySelector("#lengthRangeEnd").value;
 			ok = ok && (m.minutes <= maxLength && m.minutes >= minLength)
-			//TODO ratings
-
-			let searchTags = criteria.querySelector("#tagList").value.split(',');
-			let groupTagCtx = criteria.querySelector("#groupTagCtx").value.split(',');
-			groupTagCtx.forEach(element => {
-				element = element.trim();
-			});
-			let movieTags = [];
 			
+			//Ratings
+			let minRating = criteria.querySelector("#rateMin").value;
+			let groupRateCtx = criteria.querySelector("#groupRateCtx").value.split(',');
+			let groupFiltered = criteria.querySelector("#rateGroupSwitch").getAttribute("aria-expanded") == "true" &&
+				groupRateCtx[0] != "";
+
+			let groups = Pmgr.state.groups.filter(element => groupRateCtx.indexOf(element.name) >= 0)
+
+			let totalValidRates = 0
+			let calculatedRate = 0
+
+			m.ratings.forEach(ratingID => {
+				let rating = Pmgr.state.ratings.find(element => element.id == ratingID);
+				let validRate = true;
+				if (groupFiltered) {
+					validRate = rateBelongsAnyGroup(rating,groups)
+				}
+
+				if (validRate) {
+					if (rating.rating >= 0){
+						totalValidRates++;
+						calculatedRate += rating.rating
+					}
+				}
+			})
+
+			let finalRate = -1
+			if (totalValidRates > 0)
+				finalRate = Math.round(calculatedRate / totalValidRates)
+			ok = ok && (finalRate) >= minRating
+
+
+			//Tags
+			let searchTags = criteria.querySelector("#tagList").value.split(',');
+
+			let movieTags = [];
+			groupFiltered = criteria.querySelector("#tagGroupSwitch").getAttribute("aria-expanded") == "true" &&
+				groupTagCtx[0] != "";
+
+			let groupTagCtx = criteria.querySelector("#groupTagCtx").value.split(',');
+			//groupTagCtx = groupTagCtx.map(el => { return el.trim() })
+			groups = Pmgr.state.groups.filter(element => groupTagCtx.indexOf(element.name) >= 0)
+
+
 			m.ratings.forEach(ratingID => {
 				//Comprobar que el rating pertenece a un miembro del uno de los grupos indicados
 				let rating = Pmgr.state.ratings.find(element => element.id == ratingID)
-				//TODO filtro de contexto para busquedas por grupo
 				let validCtx = true;
-				if(
-					criteria.querySelector("#tagGroupSwitch").getAttribute("aria-expanded") && 
-					groupTagCtx[0]!=""){
-					
-					let groups = Pmgr.state.groups.filter(element => groupTagCtx.indexOf(element.name) >= 0)
-					let raterGroups = Pmgr.state.users.find(usr => usr.id == rating.user).groups;
-					validCtx = raterGroups.some(grp => groups.indexOf(grp)>=0)
+				if (groupFiltered) {
+					validCtx = rateBelongsAnyGroup(rating,groups)
 				}
 
 				if (validCtx && rating.labels) {
@@ -665,9 +699,9 @@ window.userId = userId;
 window.Pmgr = Pmgr;
 
 const afterLoginCleanup = [
-	()=>{
-		console.log("Limpito")
+	() => {
 		document.querySelector("#tagGroupSwitch").checked = false;
+		document.querySelector("#rateGroupSwitch").checked = false;
 	},
 ]
 

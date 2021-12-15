@@ -283,32 +283,40 @@
                             </div>
                         </div>
                         <hr />
-                        <div class="row px-2">
-                            <label for="tagList">Ratings</label>
-                            <div class="col-2">
-                                <div class="btn-group" role="group" aria-label="rateContext">
-                                    <button type="button" class="btn btn-secondary" autofocus="true">Global</button>
-                                    <button type="button" class="btn btn-secondary">Group</button>
-                                </div>
+                        <div class="row center-block">
+                            <div class="col-1">Rating</div>
+                            <div class="col-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="button" id="rateGroupSwitch" type="checkbox" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsableRateCtx" aria-expanded="false"  aria-controls="collapsableRateCtx">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Group Filter</label>
+                                  </div>
                             </div>
-                            <div class="col-6">
-                                <!-- TODO controlador de estrellitas -->
+                            <div class="collapse col-4" id="collapsableRateCtx">
+                                <input id="groupRateCtx" type="text" class="form-control pull-right">
+                            </div>
+                            <!-- TODO hacer que los valores se actualicen -->
+                            <div class="col-4 center-block pull-right">
+                                <input id="rateMin" type="range" class="form-range pull-right" min="0" max="5" step="1">
+                            </div>
+                            <div class="col-2">
+                                <input type="number" class="form-number" min="0" max="5" defaultValue="0">
                             </div>
                         </div>
                         <hr />
-                        <div class="row px-8">
+                        <div class="row center-block">
                             <div class="col-1">Tags</div>
-                            <div class="col-2">
+                            <div class="col-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="button" id="tagGroupSwitch" type="checkbox" id="flexSwitchCheckDefault" data-bs-toggle="collapse"
+                                    <input class="form-check-input" role="button" id="tagGroupSwitch" type="checkbox" data-bs-toggle="collapse"
                                     data-bs-target="#collapsableTagCtx" aria-expanded="false"  aria-controls="collapsableTagCtx">
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Group Filter</label>
                                   </div>
                             </div>
-                            <div class="collapse col-2" id="collapsableTagCtx">
+                            <div class="collapse col-4" id="collapsableTagCtx">
                                 <input id="groupTagCtx" type="text" class="form-control pull-right">
                             </div>
-                            <div class="col-6 center-block pull-right">
+                            <div class="col-4 center-block pull-right">
                                 <input id="tagList" type="text " class="form-control pull-right">
                             </div>
                         </div>
