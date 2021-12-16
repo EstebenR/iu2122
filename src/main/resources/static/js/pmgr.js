@@ -264,12 +264,13 @@ function nuevoRating(formulario) {
  * @param {Element} formulario para con los valores a subir
  */
 function modificaRating(formulario) {
+    console.log(formulario.querySelector('input[name="myLabels"]'))
     const rating = new Pmgr.Rating(
+        -1,
+        userId,
         formulario.querySelector('input[name="id"]').value,
-        formulario.querySelector('input[name="user"]').value,
-        formulario.querySelector('input[name="movie"]').value,
-        formulario.querySelector('input[name="rating"]:checked').value,
-        formulario.querySelector('input[name="labels"]').value);
+        formulario.querySelector('input[name="myRating"]').value,
+        formulario.querySelector('input[name="myLabels"]').value);
     Pmgr.setRating(rating).then(() => {
         formulario.reset() // limpia el formulario si todo OK
         modalRateMovie.hide(); // oculta el formulario
@@ -573,6 +574,8 @@ login("g4", "aGPrD"); // <-- tu nombre de usuario y password aquí
         console.log("enviando formulario!");
         if (f.checkValidity()) {
             modificaPelicula(f); // modifica la pelicula según los campos previamente validados
+            //TODO comprobar si el rating existe
+            modificaRating(f);
         } else {
             e.preventDefault();
             f.querySelector("button[type=submit]").click(); // fuerza validacion local

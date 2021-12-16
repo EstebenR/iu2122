@@ -99,9 +99,31 @@
                             <input type="text" class="form-control" name="synopsis" placeholder="Synopsis">
                         </div>
                         <div class="col-md-4">
-                            <!--TODO ratings-->
-                            <p>⭐⭐⭐⭐⭐</p>
-                            <p>Tags</p>
+                            <fieldset class="estrellitas" name="myRating">
+                                <label title="Atómico - 5 estrellas">
+                                    <input type="radio" name="myRating" value="5" />
+                                </label>
+
+                                <label title="Muy buena - 4 estrellas">
+                                    <input type="radio" name="myRating" value="4" />
+                                </label>
+
+                                <label title="Pasable - 3 estrellas">
+                                    <input type="radio" name="myRating" value="3" />
+                                </label>
+
+                                <label title="Más bien mala - 2 estrellas">
+                                    <input type="radio" name="myRating" value="2" />
+                                </label>
+
+                                <label title="Horrible - 1 estrella">
+                                    <input type="radio" name="myRating" value="1" />
+                                </label>
+                            </fieldset>
+                            <hr/>
+                            <textarea name="myLabels" rows="2" cols="10">
+                            Socorro    
+                            </textarea>
                         </div>
                         <div class="col-md-1 col-12 d-flex align-content-center flex-wrap ">
                             <div class="row p-4">
@@ -171,6 +193,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal para opinar sobre película -->
 
     <!-- barra de navegación -->
     <nav class="navbar sticky-top">
