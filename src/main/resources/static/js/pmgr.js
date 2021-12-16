@@ -247,11 +247,12 @@ function modificaPelicula(formulario) {
  * @param {Element} formulario para con los valores a subir
  */
 function nuevoRating(formulario) {
+    console.log(formulario)
     const rating = new Pmgr.Rating(-1,
-        formulario.querySelector('input[name="user"]').value,
-        formulario.querySelector('input[name="movie"]').value,
-        formulario.querySelector('input[name="rating"]:checked').value,
-        formulario.querySelector('input[name="labels"]').value);
+        userId,
+        formulario.querySelector('input[name="id"]').value,
+        formulario.querySelector('input[name="myRating"]:checked').value,
+        formulario.querySelector('textArea[name="myLabels"]').value);
     Pmgr.addRating(rating).then(() => {
         formulario.reset() // limpia el formulario si todo OK
         modalRateMovie.hide(); // oculta el formulario
@@ -263,14 +264,14 @@ function nuevoRating(formulario) {
  * Usa valores de un formulario para modificar un rating
  * @param {Element} formulario para con los valores a subir
  */
-function modificaRating(formulario) {
-    console.log(formulario.querySelector('input[name="myLabels"]'))
+function modificaRating(formulario, ratingID) {
+    console.log(formulario.querySelector('input[name="myRating"]:checked').value)
     const rating = new Pmgr.Rating(
-        -1,
+        ratingID,
         userId,
         formulario.querySelector('input[name="id"]').value,
-        formulario.querySelector('input[name="myRating"]').value,
-        formulario.querySelector('input[name="myLabels"]').value);
+        formulario.querySelector('input[name="myRating"]:checked').value,
+        formulario.querySelector('textArea[name="myLabels"]').value);
     Pmgr.setRating(rating).then(() => {
         formulario.reset() // limpia el formulario si todo OK
         modalRateMovie.hide(); // oculta el formulario
@@ -574,8 +575,14 @@ login("g4", "aGPrD"); // <-- tu nombre de usuario y password aquí
         console.log("enviando formulario!");
         if (f.checkValidity()) {
             modificaPelicula(f); // modifica la pelicula según los campos previamente validados
-            //TODO comprobar si el rating existe
-            modificaRating(f);
+            let ratings = Pmgr.resolve(f.querySelector('input[name="id"]').value).ratings
+            let ratingID = ratings.find(ratingID => Pmgr.resolve(ratingID).user == userId );
+            if(!ratingID){
+                nuevoRating(f)
+            }
+            else{
+                modificaRating(f, ratingID);
+            }
         } else {
             e.preventDefault();
             f.querySelector("button[type=submit]").click(); // fuerza validacion local
