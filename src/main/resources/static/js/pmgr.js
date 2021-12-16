@@ -448,6 +448,7 @@ function update() {
                 var modelTags = document.getElementById('movieInfoLable')
 				var modalRating = document.getElementById('movieInfoRating')
 
+
                 modalTitle.textContent = movie.name + " - " + movie.year
                 modalDirector.textContent = movie.director
                 modalLength.textContent = movie.minutes + " minutes"
@@ -465,6 +466,7 @@ function update() {
 				for (let i = 0; i < movie.ratings.length; i++) {
 					var rat = movie.ratings[i];
 					let mov = Pmgr.state.ratings.find(element => element.id == rat)
+                
 
 					if (mov.rating != -1) {
 						ratingFinal += mov.rating
@@ -640,6 +642,23 @@ document.querySelector("#editMovieButton").addEventListener('click', e => {
     movieEditForm.querySelector("input[name='year']").value = movie.year
     movieEditForm.querySelector("input[name='minutes']").value = movie.minutes
     movieEditForm.querySelector("img").src = serverUrl + "poster/" + movie.imdb
+    
+    let userRatingID = movie.ratings.find(ratingID => Pmgr.resolve(ratingID).user == userId)
+    if(userRatingID){
+        let userRating = Pmgr.resolve(userRatingID)
+        console.log("ratiaste")
+        if(userRating.rating != -1){
+            var modalUserRating = document.querySelectorAll('fieldset.estrellitas label input[name=myRating]')
+            modalUserRating.forEach(element => {
+                element.checked  = (element.value == userRating.rating)
+            });
+        }
+        else{
+
+        }
+        var modalUserTags = document.querySelector('textArea[name=myLabels')
+        modalUserTags.value = (userRating.labels.length > 0) ? userRating.labels : ""
+    }
 
     modalMovieInfo.hide()
     modalEditMovie.show()
@@ -723,8 +742,7 @@ function searchMovie(title) {
 				let validRate = true;
 				if (groupFiltered) {
 					validRate = rateBelongsAnyGroup(rating,groups)
-					if(validRate)
-						console.log("Algn hola auyida")
+
 				}
 
 				if (validRate) {
